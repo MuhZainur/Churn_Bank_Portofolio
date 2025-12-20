@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./Backend
+    container_name: lloyds_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Backend:/app
+    restart: always
+
+  frontend:
+    build: ./Frontend
+    container_name: lloyds_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
