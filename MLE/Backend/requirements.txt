@@ -2,6 +2,8 @@ fastapi==0.110.0
 uvicorn==0.29.0
 python-multipart==0.0.9
 # PyCaret handles its own dependencies (sklearn, joblib, imblearn, pandas compatibility) to avoid conflicts
+# STRICTLY PIN SKLEARN: Cloud Run defaults to 1.7.x which breaks PyCaret 3.3
+scikit-learn==1.5.2
 pycaret==3.3.0
 xgboost==2.0.3
 openpyxl==3.1.2
