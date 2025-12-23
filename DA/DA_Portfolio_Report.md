@@ -74,4 +74,4 @@ We have transitioned from "guessing" why customers leave to knowing the **Who, W
 The next phase (Data Science) will build a **Predictive Model** to identify these users *before* they leave, enabling proactive intervention.
 
 ---
-*Created by [Your Name] - Data Analyst & Scientist*
+*Created by MuhZainur - Data Analyst & Scientist*
