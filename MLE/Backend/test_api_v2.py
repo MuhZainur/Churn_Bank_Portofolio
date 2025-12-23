@@ -10,15 +10,17 @@ def test_churn_flow():
         assert response.status_code == 200
         print("✅ Root Endpoint: OK")
 
-        # Check Prediction (UPDATED PAYLOAD)
+        # Check Prediction (UPDATED PAYLOAD MATCHING PYCARET MODEL)
         payload = {
             "Age": 45,
             "AmountSpent": 120.50,
+            "LoginFrequency": 10,
             "Gender": "F",
             "IncomeLevel": "High",
             "MaritalStatus": "Married",
             "ProductCategory": "Electronics",
-            # "InteractionType": "Inquiry",  <-- REMOVED
+            "InteractionType": "Inquiry",
+            "ResolutionStatus": "Resolved",
             "ServiceUsage": "Website"
         }
         

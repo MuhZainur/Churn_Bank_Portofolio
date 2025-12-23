@@ -7,7 +7,7 @@ We designed a Microservices Architecture to ensure scalability and maintainabili
 
 ### A. Backend (FastAPI)
 -   **Framework**: FastAPI (High performance, async).
--   **Model Serving**: Scikit-Learn Pipeline (One-Hot Encoding + XGBoost) loaded via `joblib`.
+-   **Model Serving**: **PyCaret Pipeline** (Preprocessing + Model + Tuning) loaded entire `.pkl`.
 -   **API Design**: RESTful implementation with `Pydantic` validation.
 -   **Key Features**:
     -   `POST /predict/churn`: Accepts raw customer data, returns Churn Probability & Risk Level.
@@ -32,9 +32,10 @@ We designed a Microservices Architecture to ensure scalability and maintainabili
 **Root Cause**: 
 1.  **Dependency Hell**: The Docker container was missing `xgboost` in `requirements.txt`.
 2.  **Stale State**: The container was running an older build that didn't have the Volume Mounts configured, so it couldn't see the new `.pkl` file.
+3.  **Missing PyCaret**: Backend required `pycaret` library to deserialize the model pipeline.
 
 **Solution**:
--   **Dependency Fix**: Added `xgboost` to requirements.
+-   **Dependency Fix**: Added `pycaret` and `xgboost` to requirements.
 -   **Infrastructure Fix**: Updated `docker-compose.yml` with Volume Mounts.
 -   **Resolution**: Forced a rebuild (`docker-compose up -d --build`) to sync the environment.
 

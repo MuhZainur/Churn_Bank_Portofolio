@@ -16,9 +16,9 @@ This project simulates a real-world Machine Learning Engineering workflow, divid
 
 ### Phase 2: Data Science (DS) 🧠
 *   **Goal:** Build a robust predictive model.
-*   **Model:** **XGBoost Classifier** (Best Performer, ~88% Recall).
-*   **Techniques:** SMOTE (Synthetic Minority Over-sampling) for Class Imbalance, One-Hot Encoding Pipeline, and Hyperparameter Tuning.
-*   **Deliverable:** `DS/DS_Advanced_Analytics.ipynb` and `lloyds_churn_model.pkl`.
+*   **Model:** **PyCaret Ensemble** (XGBoost Tuned).
+*   **Techniques:** Auto-SMOTE, 10-Fold CV, Random Grid Search.
+*   **Deliverable:** `DS/DS_Advanced_Analytics.ipynb` and `lloyds_churn_model.pkl` (Full Pipeline).
 
 ### Phase 3: ML Engineering (MLE) ⚙️
 *   **Goal:** Deploy the model into a production-grade application.
@@ -34,8 +34,8 @@ This project simulates a real-world Machine Learning Engineering workflow, divid
 
 | Component | Technologies |
 | :--- | :--- |
-| **Data Science** | Python 3.10, Scikit-Learn (1.5.2), XGBoost, SMOTE |
-| **Backend API** | FastAPI, Uvicorn, Joblib, Pydantic |
+| **Data Science** | Python 3.10, **PyCaret 3.3**, XGBoost 2.0 |
+| **Backend API** | FastAPI, Uvicorn, **PyCaret (Inference)** |
 | **Frontend UI** | React.js, Vite, Tailwind CSS |
 | **Infrastructure** | Docker, Docker Compose |
 

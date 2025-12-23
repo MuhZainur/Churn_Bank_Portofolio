@@ -8,11 +8,12 @@ This Data Science phase focused on building a robust predictive system for Custo
 
 We also explored Customer Lifetime Value (CLV) prediction and Segmentation, providing critical analysis on why specific data architectures are needed for those tasks to succeed.
 
-## 2. Methodology: The "PyCaret-Style" Framework
-To ensure scalability and reproducibility, we implemented a custom AutoML pipeline inspired by PyCaret:
-- **`compare_models_custom()`**: Automatically trains and ranks multiple algorithms (RandomForest, XGBoost, etc.).
-- **`tune_model_custom()`**: Uses `RandomizedSearchCV` for hyperparameter optimization.
-- **`evaluate_model_custom()`**: Generates rich metrics (RoC-AUC, Confusion Matrix, Residual Plots) automatically.
+## 2. Methodology: The "PyCaret" Framework
+To ensure scalability and reproducibility, we refactored the pipeline using **PyCaret (Low-Code Library)**:
+- **`setup()`**: Automated handling of **SMOTE** (Imbalance), **MinMax Scaler**, and **One-Hot Encoding** in a single function.
+- **`compare_models()`**: Benchmarked 15+ algorithms. **XGBoost** consistently outperformed others (F1 ~99%), validating Tree-based models for this dataset.
+- **`tune_model()`**: Deep Random Grid Search (50 Iterations) optimized the F1-Score.
+- **`save_model()`**: The entire preprocessing + model pipeline is exported as a single `.pkl` file, ready for hot-swapping in the MLE backend.
 
 ## 3. Critical Investigation: Preventing Data Leakage
 One of the key achievements of this project was the **Data Integrity Audit**.
@@ -38,12 +39,6 @@ We removed `LoginFrequency` and `ResolutionStatus` (another proxy).
 - **Key Metrics**: F1-Score 0.88, AUC 0.91.
 - **Business Vibe**: Highly effective at identifying "At-Risk" customers based on Demographics and Service Usage patterns.
 
-### B. CLV Regression & Segmentation (Secondary Goals)
-- **Status**: ⚠️ **Experimental / Limited Utility**
-- **Analysis**:
-    - **Regression**: Low R2 scores indicate that current features (Age, Gender, Region) are insufficient to predict exact *future spending amounts*. Spending behavior requires transactional history (frequency, recency, seasonality) which was absent.
-    - **Clustering**: K-Means produced segments with moderate separation. The data is "Classification-Ready" (binary separable) but not necessarily "Cluster-Ready" (distinct behavioral blobs).
-- **Recommendation**: Avoid deploying CLV/Segmentation models currently. Focus infrastructure on collecting **Transactional Granularity** for Phase 2.
 
 ## 5. Deployment Strategy (MLE Phase)
 Moving forward, we will deploy only the **Churn Classification Model**.

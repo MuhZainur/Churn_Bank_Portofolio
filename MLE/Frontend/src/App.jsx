@@ -13,10 +13,13 @@ function App() {
     const [formData, setFormData] = useState({
         Age: 30,
         AmountSpent: 500,
+        LoginFrequency: 5, // New Field
         Gender: 'M',
         IncomeLevel: 'Medium',
         MaritalStatus: 'Single',
         ProductCategory: 'Electronics',
+        InteractionType: 'Inquiry', // New Field
+        ResolutionStatus: 'Resolved', // New Field
         ServiceUsage: 'Mobile App'
     });
 
@@ -85,6 +88,11 @@ function App() {
                                 </div>
                             </div>
 
+                            <div>
+                                <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">Login Frequency / Year</label>
+                                <input type="number" name="LoginFrequency" value={formData.LoginFrequency} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-lloyds-green/20 focus:border-lloyds-green transition-all" required />
+                            </div>
+
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">Gender</label>
@@ -133,7 +141,25 @@ function App() {
                                 </select>
                             </div>
 
-                            {/* Interaction Type Removed */}
+                            {/* New Fields: Interaction & Resolution */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">Interaction Type</label>
+                                    <select name="InteractionType" value={formData.InteractionType} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-lloyds-green/20 focus:border-lloyds-green transition-all">
+                                        <option value="Inquiry">Inquiry</option>
+                                        <option value="Complaint">Complaint</option>
+                                        <option value="Feedback">Feedback</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold uppercase text-gray-500 mb-1">Resolution Status</label>
+                                    <select name="ResolutionStatus" value={formData.ResolutionStatus} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-lloyds-green/20 focus:border-lloyds-green transition-all">
+                                        <option value="Resolved">Resolved</option>
+                                        <option value="Unresolved">Unresolved</option>
+                                        <option value="User Ignored">User Ignored</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <button type="submit" disabled={loading} className="w-full bg-lloyds-green hover:bg-lloyds-dark text-white font-bold py-3 rounded-lg shadow-lg shadow-lloyds-green/30 transition-all transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed">
                                 {loading ? 'Analyzing...' : 'Predict Churn Risk'}
