@@ -25,30 +25,34 @@ app.add_middleware(
 
 # Global Model
 churn_model = None
+load_error = None
 
 @app.on_event("startup")
 def load_models():
     global churn_model
+    global churn_model, load_error
     try:
         import sklearn
         print(f"DEBUG: Current directory: {os.getcwd()}")
         print(f"DEBUG: Files: {os.listdir('.')}")
-        print(f"DEBUG: Sklearn Version: {sklearn.__version__}")
         
         model_path = "lloyds_churn_model.pkl"
         if os.path.exists(model_path):
             churn_model = joblib.load(model_path)
             print(f"✅ Model loaded from {model_path}")
+            load_error = None
         else:
-            print(f"❌ Model not found at {model_path}")
+            load_error = f"Model file not found at {model_path}"
+            print(f"❌ {load_error}")
     except Exception as e:
+        load_error = str(e)
         print(f"🔥 Error loading model: {e}")
         import traceback
         traceback.print_exc()
 
 @app.get("/")
 def home():
-    return {"message": "Lloyds Churn API is Running", "docs": "/docs"}
+    return {"message": "Lloyds Churn API is Running", "docs": "/docs", "model_status": "Loaded" if churn_model else "Not Loaded", "error": load_error}
 
 @app.post("/predict/churn")
 def predict_churn(data: ChurnInput):
@@ -58,7 +62,7 @@ def predict_churn(data: ChurnInput):
         load_models()
         
     if not churn_model:
-        raise HTTPException(status_code=503, detail="Model not loaded. Please copy .pkl to Backend folder.")
+        raise HTTPException(status_code=503, detail=f"Model not loaded. Error: {load_error}")
     
     try:
         input_data = data.dict()
