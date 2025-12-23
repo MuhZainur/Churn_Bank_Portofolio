@@ -1,14 +1,15 @@
 
-FROM python:3.10-slim
+# RADICAL SOLUTION: Use different base image variant to bypass cache altogether
+FROM python:3.10-slim-bullseye
 
 WORKDIR /app
-# FORCE_CACHE_INVALIDATION: 2025-12-23_REV2
-ENV DEPLOY_REFRESH=rev2
 
+# Install all dependencies in single layer to minimize cache issues
 COPY requirements.txt .
-run pip install --no-cache-dir -r requirements.txt
-# SAFETY NET: Force reinstall sklearn to 1.5.2 in case PyCaret upgraded it or base image had it
-RUN pip uninstall -y scikit-learn && pip install scikit-learn==1.5.2
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip uninstall -y scikit-learn && \
+    pip install --no-cache-dir scikit-learn==1.5.2
 
 COPY . .
 
