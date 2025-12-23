@@ -33,8 +33,8 @@ function App() {
         setError(null);
         setResult(null);
         try {
-            // Assuming Backend is running on port 8000
-            const response = await axios.post('http://localhost:8000/predict/churn', formData);
+            // Production URL (Cloud Run)
+            const response = await axios.post('https://churn-bank-portofolio-backend-567427950134.asia-southeast2.run.app/predict/churn', formData);
             setResult(response.data);
         } catch (err) {
             setError('Failed to connect to API. Is the Backend running?');
