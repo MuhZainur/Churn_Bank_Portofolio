@@ -56,4 +56,15 @@ We designed a Microservices Architecture to ensure scalability and maintainabili
 A basic **CI/CD Pipeline** was established:
 1.  **Linting**: Code quality checks.
 2.  **Testing**: `pytest` runs against the API inputs.
-3.  **Build**: Docker images built automatically on push.
+
+### Issue 3: Cloud Run Deployment Hell (Dependency & System Libraries) 🔴
+**Problem**: Deployment failed repeatedly with obscure errors (`Manifest mismatch`, `ImportError`, `libgmp.so.1 missing`).
+**Root Cause**: 
+1.  **Environment Mismatch**: Local Anaconda env used `sklearn 1.4.2` while Cloud Run forced `1.5.2`, breaking PyCaret 3.3.
+2.  **System Dependencies**: `python:3.10-slim` is too minimal and lacks `libgmp` required by PyCaret's crypto/math libraries.
+3.  **Cache Corruption**: Google Cloud Build cache got corrupted (`Manifest.Layers` error), requiring a clean build strategy.
+
+**Solution (The "Nuclear" Fix)**:
+-   **Exact Dependency Alignment**: Used `pip list` in local env to pin exact versions (`pycaret==3.3.2`, `scikit-learn==1.4.2`, `xgboost==3.1.2`) in `requirements.txt`.
+-   **System Libs**: Added `apt-get install libgmp-dev gcc g++` to `Dockerfile`.
+-   **Key Lesson**: _"Always trust the local environment versions over generic requirements when deploying complex ML pipelines."_
