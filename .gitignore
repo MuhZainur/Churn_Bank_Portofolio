@@ -34,4 +34,7 @@ LLoyd_intern.ipynb
 *.csv
 *.xlsx
 
+# Local Environment Exports
+local_requirements.txt
+
 
