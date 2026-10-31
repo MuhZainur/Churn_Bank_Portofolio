@@ -5,9 +5,9 @@ An End-to-End Artificial Intelligence solution to predict customer churn risks a
 
 ---
 
-## 🌐 Live Demo (Cloud Run)
-*   **Web Dashboard (Frontend):** [Click to Open App 🚀](https://churn-bank-portofolio-frontend-567427950134.asia-southeast2.run.app)
-*   **API Docs (Backend):** [Swagger UI 📄](https://churn-bank-portofolio-backend-567427950134.asia-southeast2.run.app/docs)
+## 🌐 Live Demo
+*   **Web Dashboard (Frontend):** [Click to Open App 🚀](https://churn-bank-portofolio.vercel.app/)
+*   **API Docs (Backend):** [Swagger UI 📄](https://churn-bank-portofolio.onrender.com/docs)
 
 ---
 

@@ -23,9 +23,9 @@ We designed a Microservices Architecture to ensure scalability and maintainabili
 -   **Optimization**: multi-stage builds to reduce image size.
 -   **Volume Mounts**: Configured `./Backend:/app` to enable **Hot-Reloading** of code and models without rebuilding.
 
-### D. Cloud Deployment (Google Cloud Run)
--   **Live Frontend**: [https://churn-bank-portofolio-frontend-567427950134.asia-southeast2.run.app](https://churn-bank-portofolio-frontend-567427950134.asia-southeast2.run.app)
--   **Live Backend**: [https://churn-bank-portofolio-backend-567427950134.asia-southeast2.run.app](https://churn-bank-portofolio-backend-567427950134.asia-southeast2.run.app)
+### D. Cloud Deployment (Vercel & Render)
+-   **Live Frontend**: [https://churn-bank-portofolio.vercel.app](https://churn-bank-portofolio.vercel.app)
+-   **Live Backend**: [https://churn-bank-portofolio.onrender.com](https://churn-bank-portofolio.onrender.com)
 -   **Strategy**: Containerless deployment using source-based build (built from `Dockerfile` in root).
 
 ---

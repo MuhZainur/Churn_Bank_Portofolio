@@ -46,7 +46,7 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://churn-bank-portofolio-backend-567427950134.asia-southeast2.run.app';
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://churn-bank-portofolio.onrender.com';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,7 +55,7 @@ function App() {
         setResult(null);
         try {
             const endpoint = `${API_BASE_URL.replace(/\/+$/, '')}/predict/churn`;
-            const response = await axios.post(endpoint, formData, { timeout: 6000 });
+            const response = await axios.post(endpoint, formData, { timeout: 15000 });
             setResult(response.data);
         } catch (err) {
             console.warn('Backend offline or sleeping. Engaging client heuristic simulation:', err);
