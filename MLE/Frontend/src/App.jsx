@@ -9,6 +9,25 @@ const LoadingSpinner = () => (
     </div>
 );
 
+// Fallback heuristic simulation if backend is sleeping or offline
+const calculateHeuristicRisk = (data) => {
+    let score = 0.35;
+    if (data.InteractionType === 'Complaint') score += 0.32;
+    if (data.ResolutionStatus === 'Unresolved') score += 0.22;
+    if (Number(data.Age) >= 40 && Number(data.Age) <= 55) score += 0.14;
+    if (Number(data.LoginFrequency) < 4) score += 0.12;
+    if (Number(data.AmountSpent) < 250) score += 0.08;
+    if (data.IncomeLevel === 'High') score += 0.06;
+    score = Math.min(Math.max(score, 0.05), 0.95);
+    const prob = parseFloat(score.toFixed(2));
+    return {
+        prediction: prob > 0.5 ? 'Churn' : 'Retained',
+        probability: prob,
+        risk_level: prob > 0.7 ? 'Critical' : prob > 0.4 ? 'Warning' : 'Safe',
+        is_simulated: true
+    };
+};
+
 function App() {
     const [formData, setFormData] = useState({
         Age: 30,
@@ -27,18 +46,21 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://churn-bank-portofolio-backend-567427950134.asia-southeast2.run.app';
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
         setResult(null);
         try {
-            // Production URL (Cloud Run)
-            const response = await axios.post('https://churn-bank-portofolio-backend-567427950134.asia-southeast2.run.app/predict/churn', formData);
+            const endpoint = `${API_BASE_URL.replace(/\/+$/, '')}/predict/churn`;
+            const response = await axios.post(endpoint, formData, { timeout: 6000 });
             setResult(response.data);
         } catch (err) {
-            setError('Failed to connect to API. Is the Backend running?');
-            console.error(err);
+            console.warn('Backend offline or sleeping. Engaging client heuristic simulation:', err);
+            const fallbackResult = calculateHeuristicRisk(formData);
+            setResult(fallbackResult);
         }
         setLoading(false);
     };
@@ -215,6 +237,13 @@ function App() {
                                                 <span className="text-2xl font-bold">{result.risk_level}</span>
                                             </div>
                                         </div>
+
+                                        {result.is_simulated && (
+                                            <div className="mt-4 p-2.5 bg-amber-50 border border-amber-200/80 rounded-lg text-xs text-amber-800 flex items-center justify-center space-x-2">
+                                                <svg className="w-4 h-4 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                <span>⚡ <strong>Fast Demo Inference</strong> (Live Cloud Backend sleeping or warming up)</span>
+                                            </div>
+                                        )}
                                     </motion.div>
                                 )}
                             </AnimatePresence>
