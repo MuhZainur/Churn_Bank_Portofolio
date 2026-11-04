@@ -1,7 +1,7 @@
 # Data Science Portfolio Report: Customer Retention & Advanced Analytics
 **Project**: Lloyd Banking Group - End-to-End Churn Prediction
 **Date**: December 2025
-**Author**: [Your Name/Role]
+**Author**: Muhammad Zainurrahman
 
 ## 1. Executive Summary
 This Data Science phase focused on building a robust predictive system for Customer Churn. Unlike standard implementations, this project emphasized **Scientific Rigor** and **Model Integrity**. We successfully built a model with **88% Accuracy** after identifying and fixing a critical Data Leakage issue that initially inflated results to 94%.
